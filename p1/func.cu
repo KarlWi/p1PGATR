@@ -25,50 +25,51 @@ void check(T err, const char* const func, const char* const file, const int line
   if (err != cudaSuccess) {
     std::cerr << "CUDA error at: " << file << ":" << line << std::endl;
     std::cerr << cudaGetErrorString(err) << " " << func << std::endl;
+	system("pause");
     exit(1);
   }
 }
 
+//Voy a usar como variables constantes para los kernels, la matriz input de imagen y la matriz de filtro
+
+#define TAMFILTRO 5
+
+__constant__ float d_const_filter[TAMFILTRO*TAMFILTRO];
+
 __global__
 void box_filter(const unsigned char* const inputChannel,
                    unsigned char* const outputChannel,
-                   int numRows, int numCols,
-                   const float* const filter, const int filterWidth)
+                   int numRows, int numCols, const int filterWidth)
 {
-  // TODO: 
-  // NOTA: Cuidado al acceder a memoria que esta fuera de los limites de la imagen
-  //
-	int absolute_image_position_x = blockIdx.x * blockDim.x + threadIdx.x;
-	int absolute_image_position_y = blockIdx.y * blockDim.y + threadIdx.y;
+	const int2 thread_2D_pos = make_int2(blockIdx.y * blockDim.y + threadIdx.y,
+		blockIdx.x * blockDim.x + threadIdx.x);
+	const int thread_1D_pos = thread_2D_pos.x * numCols + thread_2D_pos.y;
 
-	if (absolute_image_position_x >= numCols ||
-		absolute_image_position_y >= numRows)
-	{
+	if (thread_2D_pos.x >= numRows || thread_2D_pos.y >= numCols)
 		return;
-	}
 	
-	float result = 0.0f;
+	
 	int contador = 0;
+	float result = 0.0f;
 	for (int filter_r = -filterWidth / 2; filter_r <= filterWidth / 2; ++filter_r){
+		
 		for (int filter_c = -filterWidth / 2; filter_c <= filterWidth / 2; ++filter_c){
 
-			int image_r = absolute_image_position_x + filter_r;
-			int image_c = absolute_image_position_y + filter_c;
+			int image_r = thread_2D_pos.x + filter_r;
+			int image_c = thread_2D_pos.y + filter_c;
 
 			if ((image_c >= 0) && (image_c < numCols) && (image_r >= 0) && (image_r < numRows)){
 
 				float image_value = inputChannel[image_r * numCols + image_c];
-				float filter_value = filter[contador];
+				float filter_value = d_const_filter[contador];
 				result += image_value * filter_value;
 			}
 			contador++;
 		}
-
 	}
-  // }
-  // NOTA: Que un thread tenga una posición correcta en 2D no quiere decir que al aplicar el filtro
-  // los valores de sus vecinos sean correctos, ya que pueden salirse de la imagen.
-	outputChannel[absolute_image_position_x*numCols + absolute_image_position_y] = result;
+	
+
+	outputChannel[thread_1D_pos] = result;
 }
 
 //This kernel takes in an image represented as a uchar4 and splits
@@ -81,21 +82,18 @@ void separateChannels(const uchar4* const inputImageRGBA,
                       unsigned char* const greenChannel,
                       unsigned char* const blueChannel)
 {
-  // TODO: 
-  // NOTA: Cuidado al acceder a memoria que esta fuera de los limites de la imagen
-  //
-	int absolute_image_position_x = blockIdx.x * blockDim.x + threadIdx.x;
-	int absolute_image_position_y = blockIdx.y * blockDim.y + threadIdx.y;
+	const int2 thread_2D_pos = make_int2(blockIdx.x * blockDim.x + threadIdx.x,
+		blockIdx.y * blockDim.y + threadIdx.y);
 
-   if ( absolute_image_position_x >= numCols ||
-        absolute_image_position_y >= numRows )
-   {
-       return;
-   }
-   int id = absolute_image_position_x *numCols + absolute_image_position_y;
-   redChannel[id] = inputImageRGBA[id].x;
-   greenChannel[id] = inputImageRGBA[id].y;
-   blueChannel[id] = inputImageRGBA[id].z;
+	const int thread_1D_pos = thread_2D_pos.y * numCols + thread_2D_pos.x;
+
+	if (thread_2D_pos.x >= numCols || thread_2D_pos.y >= numRows)
+		return;
+
+	int id = thread_1D_pos;
+	redChannel[id] = inputImageRGBA[id].x;
+	greenChannel[id] = inputImageRGBA[id].y;
+	blueChannel[id] = inputImageRGBA[id].z;
 }
 
 //This kernel takes in three color channels and recombines them
@@ -145,8 +143,9 @@ void allocateMemoryAndCopyToGPU(const size_t numRowsImage, const size_t numColsI
   //Reservar memoria para el filtro en GPU: d_filter, la cual ya esta declarada
   // Copiar el filtro  (h_filter) a memoria global de la GPU (d_filter)
 
-  checkCudaErrors(cudaMalloc(&d_filter, sizeof(unsigned char) * filterWidth * filterWidth));//
-  cudaMemcpy(d_filter, h_filter, sizeof(unsigned char) * filterWidth * filterWidth, cudaMemcpyHostToDevice);//Copiamos el d_filter a GPU.
+ // checkCudaErrors(cudaMalloc(&d_filter, sizeof(unsigned char) * filterWidth * filterWidth));
+  checkCudaErrors(cudaMemcpyToSymbol(d_const_filter, h_filter, sizeof(float) * filterWidth * filterWidth));
+ // cudaMemcpy(d_filter, h_filter, sizeof(unsigned char) * filterWidth * filterWidth, cudaMemcpyHostToDevice);//Copiamos el d_filter a GPU.
 
 }
 
@@ -203,24 +202,23 @@ void convolution(const uchar4 * const h_inputImageRGBA, uchar4 * const d_inputIm
                         const int filterWidth)
 {
   //TODO: Calcular tamaños de bloque
-  const dim3 blockSize(16,16);
-  const dim3 gridSize(ceil((numRows)/blockSize.x),ceil((numCols)/blockSize.y));
+  const dim3 blockSize(16,16,1);
+  const dim3 gridSize((numCols / blockSize.x) + 1, (numRows / blockSize.y) + 1, 1);
 
   //TODO: Lanzar kernel para separar imagenes RGBA en diferentes colores
   separateChannels << < gridSize, blockSize >> >(d_inputImageRGBA, numRows, numCols, d_redFiltered, d_greenFiltered, d_blueFiltered);
 
   //TODO: Ejecutar convolución. Una por canal
-  
+  box_filter << <gridSize, blockSize >> > (d_redFiltered, d_red, numRows, numCols, filterWidth);
+  box_filter << <gridSize, blockSize >> > (d_greenFiltered, d_green, numRows, numCols, filterWidth);
+  box_filter << <gridSize, blockSize >> > (d_blueFiltered, d_blue, numRows, numCols, filterWidth);
 
   // Recombining the results. 
-  recombineChannels<<<gridSize, blockSize>>>(d_redFiltered,
-                                             d_greenFiltered,
-                                             d_blueFiltered,
-                                             d_outputImageRGBA,
-                                             numRows,
-                                             numCols);
-  cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
+  //recombineChannels << <gridSize, blockSize >> >(d_redFiltered, d_greenFiltered, d_blueFiltered, d_outputImageRGBA, numRows, numCols);
+  recombineChannels << <gridSize, blockSize >> >(d_red, d_green, d_blue, d_outputImageRGBA, numRows, numCols);
 
+  cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
+  //system("pause");
 }
 
 

@@ -1,24 +1,31 @@
-﻿Compilación iniciada a las 04/03/2017 21:01:57.
-     1>Proyecto "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\p1\p1.vcxproj" en el nodo 2 (Build destinos).
+﻿Build started 08/03/2017 13:04:46.
+     1>Project "C:\Users\Vicente\Desktop\p1PGATR\p1\p1\p1.vcxproj" on node 2 (Build target(s)).
      1>AddCudaCompileDeps:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /D_DEBUG /D_CONSOLE /D_MBCS /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" /I. /FIcuda_runtime.h /c D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\func.cu 
-     1>El proyecto "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\p1\p1.vcxproj" (1) está compilando "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\p1\p1.vcxproj" (1:2) en el nodo 2 (CudaBuildCore destinos).
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\cl.exe /E /nologo /showIncludes /TP /D__CUDACC__ /DWIN32 /D_DEBUG /D_CONSOLE /D_MBCS /IC:\opencv\build\x86\vc12\..\..\include /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin" /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" /I. /FIcuda_runtime.h /c C:\Users\Vicente\Desktop\p1PGATR\p1\func.cu 
+     1>Project "C:\Users\Vicente\Desktop\p1PGATR\p1\p1\p1.vcxproj" (1) is building "C:\Users\Vicente\Desktop\p1PGATR\p1\p1\p1.vcxproj" (1:2) on node 2 (CudaBuildCore target(s)).
      1>CudaBuildCore:
          Compiling CUDA source file ..\func.cu...
-         cmd.exe /C "C:\Users\Carlos\AppData\Local\Temp\tmpa5ec97fe36b84a1bafd4dd88195ae118.cmd"
-         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\func.cu.obj "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\func.cu"
+         cmd.exe /C "C:\Users\Vicente\AppData\Local\Temp\tmp94a951ce10d34a819a01f7b40845fe1c.cmd"
+         "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\opencv\build\x86\vc12\..\..\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\func.cu.obj "C:\Users\Vicente\Desktop\p1PGATR\p1\func.cu"
          
-         D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\p1>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\func.cu.obj "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\func.cu" 
+         C:\Users\Vicente\Desktop\p1PGATR\p1\p1>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\nvcc.exe" -gencode=arch=compute_20,code=\"sm_20,compute_20\" --use-local-env --cl-version 2013 -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin"  -IC:\opencv\build\x86\vc12\..\..\include -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include"  -G   --keep-dir Debug -maxrregcount=0  --machine 32 --compile -cudart static  -g   -DWIN32 -D_DEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /Od /FS /Zi /RTC1 /MDd " -o Debug\func.cu.obj "C:\Users\Vicente\Desktop\p1PGATR\p1\func.cu" 
      1>CUDACOMPILE : nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
          func.cu
-     1>D:/URCJ/Procesadores_graficos_y_aplicaciones_en_tiempo_real/Practicas/Practica1/filter-alumnos/p1/func.cu(207): warning C4244: 'argumento' : conversión de 'double' a 'unsigned int'; posible pérdida de datos
-     1>Compilación del proyecto terminada "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\p1\p1.vcxproj" (CudaBuildCore destinos).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\main.cpp
-         main.cpp
-     1>d:\urcj\procesadores_graficos_y_aplicaciones_en_tiempo_real\practicas\practica1\filter-alumnos\p1\main.cpp(7): fatal error C1083: No se puede abrir el archivo incluir: 'opencv2/core/core.hpp': No such file or directory
-     1>Compilación del proyecto terminada "D:\URCJ\Procesadores_graficos_y_aplicaciones_en_tiempo_real\Practicas\Practica1\filter-alumnos\p1\p1\p1.vcxproj" (Build destinos) -- ERROR.
+     1>Done Building Project "C:\Users\Vicente\Desktop\p1PGATR\p1\p1\p1.vcxproj" (CudaBuildCore target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\p1.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv\build\x86\vc12\lib /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opencv_calib3d2413d.lib opencv_contrib2413d.lib opencv_core2413d.lib opencv_features2d2413d.lib opencv_flann2413d.lib opencv_gpu2413d.lib opencv_highgui2413d.lib opencv_imgproc2413d.lib opencv_legacy2413d.lib opencv_ml2413d.lib opencv_nonfree2413d.lib opencv_objdetect2413d.lib opencv_ocl2413d.lib opencv_photo2413d.lib opencv_stitching2413d.lib opencv_superres2413d.lib opencv_ts2413d.lib opencv_video2413d.lib opencv_videostab2413d.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\p1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\p1.lib" /MACHINE:X86 Debug\func.cu.obj
+         Debug\main.obj
+         p1.vcxproj -> C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\p1.exe
+       PostBuildEvent:
+         echo copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart*.dll" "C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\"
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart*.dll" "C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\"
+         :VCEnd
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart*.dll" "C:\Users\Vicente\Desktop\p1PGATR\p1\Debug\"
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart32_80.dll
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v8.0\bin\cudart64_80.dll
+                 2 archivo(s) copiado(s).
+     1>Done Building Project "C:\Users\Vicente\Desktop\p1PGATR\p1\p1\p1.vcxproj" (Build target(s)).
 
-ERROR al compilar.
+Build succeeded.
 
-Tiempo transcurrido 00:00:11.24
+Time Elapsed 00:00:06.66

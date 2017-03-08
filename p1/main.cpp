@@ -9,6 +9,8 @@
 #include <opencv2/opencv.hpp>
 #include "timer.h"
 
+using namespace cv;
+
 cv::Mat imageInputRGBA;
 cv::Mat imageOutputRGBA;
 
